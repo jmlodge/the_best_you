@@ -2,9 +2,8 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from accounts.forms import UserForm, UserProfileForm
+from accounts.forms import UserForm, UserProfileForm, UserLoginForm
 from django.contrib import auth
-from django.contrib.auth import authenticate
 from django.core.urlresolvers import reverse
 from django.template.context_processors import csrf
 from django.contrib import messages
@@ -49,11 +48,12 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        # need UserLoginForm
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            user = authenticate(username=request.POST.get('username'),
-                                password=request.POST.get('password'))
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = auth.authenticate(username=username, password=password)
 
             if user is not None:
                 auth.login(request, user)
@@ -61,10 +61,19 @@ def login(request):
             else:
                 form.add_error(None, "Your Username and, or Password was not recognised")
 
-        else:
-            form = UserLoginForm()
+    else:
+        form = UserLoginForm()
 
-        args = {'form': form}
-        args.update(csrf(request))
-        # make login.html
-        return render(request, 'login.html', args)
+    args = {'form': form}
+    args.update(csrf(request))
+    return render(request, 'accounts/login.html', args)
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse('home'))
+
+
+def profile(request):
+    return render(request, 'accounts/profile.html')
+
