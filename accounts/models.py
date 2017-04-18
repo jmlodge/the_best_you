@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     # links UserProfile to an instance of accounts
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
     # addition attributes
     website = models.URLField(blank=True)
     bio = models.TextField(max_length=400, blank=True)

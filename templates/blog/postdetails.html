@@ -2,8 +2,11 @@
 
 {% block content %}
         <div>
-            <div>{{ post.date_published }}</div>
+            <div>{{ post.date_published }} | Views {{ post.views }}</div>
             <h1><a href="">{{ post.title }}</a></h1>
+            {% if post.image %}
+                <img src="/media/{{ post.image }}">
+            {% endif %}
             <p>{{ post.content }}</p>
             <p><button onclick="location.href={% url 'post_list' %}">All Posts</button></p>
             <hr>

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
+from accounts.models import UserProfile, User
 from accounts.forms import UserForm, UserProfileForm, UserLoginForm
 from django.contrib import auth
 from django.core.urlresolvers import reverse
@@ -75,5 +76,11 @@ def logout(request):
 
 
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    # this view needs extending (change bio to something better and access all UserProfile attributes from it)
+    # will probably use this for dashboard fitness app. How can other users view???
+    profile_user = request.user.id
+    bio = UserProfile.objects.get(user_id=profile_user)
+    bio = bio.bio
+    args = {'bio': bio}
+    return render(request, 'accounts/profile.html', args)
 

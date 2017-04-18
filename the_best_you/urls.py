@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.static import serve
+from .settings import MEDIA_ROOT
 from accounts import views as account_views
 from home import views as home_views
 from blog import views as blog_views
@@ -8,6 +10,7 @@ from blog import views as blog_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_views.home, name='home'),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
     # account
     url(r'^register/$', account_views.register, name='register'),
     url(r'^login/$', account_views.login, name='login'),
