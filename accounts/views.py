@@ -23,7 +23,8 @@ def register(request):
             # save user data to DB
             user = user_form.save()
             # hash password with set_password
-            user.set_password(user.password)
+            password = request.POST.get('password1')
+            user.set_password(password)
             user.save()
 
             profile = user_profile_form.save(commit=False)
