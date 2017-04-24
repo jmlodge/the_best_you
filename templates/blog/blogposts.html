@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <hr>
+    <button class="btn btn-default" onclick="location.href='{% url 'new_post' %}'">New Post</button>
+    <hr>
+
     {% for post in posts %}
         <div>
             <div>{{ post.date_published }} | Views {{ post.views }} | Category <a href="#">{{ post.category }}</a> </div>

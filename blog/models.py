@@ -5,10 +5,10 @@ from django.db import models
 from django.utils import timezone
 
 categories = (
-    ('1', 'Training'),
-    ('2', 'Mindset'),
-    ('3', 'Nutrition'),
-    ('4', 'General')
+    ('Training', 'Training'),
+    ('Mindset', 'Mindset'),
+    ('Nutrition', 'Nutrition'),
+    ('General', 'General')
 )
 
 
@@ -19,7 +19,7 @@ class Post(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_published = models.DateTimeField(blank=True, null=True)
     views = models.IntegerField(default=0)
-    category = models.CharField(max_length=1, choices=categories, default=4)
+    category = models.CharField(max_length=9, choices=categories, default='General')
     image = models.ImageField(upload_to='blog_images', blank=True)
 
     def publish(self):

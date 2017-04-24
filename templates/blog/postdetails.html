@@ -9,6 +9,7 @@
             {% endif %}
             <p>{{ post.content }}</p>
             <p><button onclick="location.href={% url 'post_list' %}">All Posts</button></p>
+            <p><button onclick="location.href='edit'">Edit</button></p>
             <hr>
         </div>
 {% endblock %}
