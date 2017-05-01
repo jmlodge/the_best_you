@@ -7,9 +7,9 @@ import json
 
 
 def search_name(request):
-    parameters = {"api_key": USDA_API_KEY, "q": "baked beans"}
+    parameters = {"api_key": USDA_API_KEY, "q": "pork chop", "ds": "Standard Reference"}
     json_list = []
-    req = requests.get('https://api.nal.usda.gov/ndb/search/?format=json&sort=n&max=10&offset=0', params=parameters)
+    req = requests.get('https://api.nal.usda.gov/ndb/search/?format=json&sort=r&max=10&offset=0', params=parameters)
     json_list.append(json.loads(req.content))
     parsed_data = []
     i = 0
