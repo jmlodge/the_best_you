@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'accounts',
     'blog',
+    'nutrition',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+
+USDA_API_KEY = 'xeGDdTmJJTiMlEPCkSmE6sqExbBCGNALiPzLTYsP'

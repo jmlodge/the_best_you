@@ -5,6 +5,7 @@ from .settings import MEDIA_ROOT
 from accounts import views as account_views
 from home import views as home_views
 from blog import views as blog_views
+from nutrition import views as nutrition_views
 
 
 urlpatterns = [
@@ -20,5 +21,7 @@ urlpatterns = [
     url(r'^blog/$', blog_views.post_list, name='post_list'),
     url(r'^blog/(?P<id>\d+)/$', blog_views.post_detail),
     url(r'^post/new/$', blog_views.new_post, name='new_post'),
-    url(r'^blog/(?P<id>\d+)/edit$', blog_views.edit_post, name='edit')
+    url(r'^blog/(?P<id>\d+)/edit$', blog_views.edit_post, name='edit'),
+    # nutrition
+    url(r'^nutrition/$', nutrition_views.search_name, name='search_name'),
 ]
