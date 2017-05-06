@@ -7,7 +7,7 @@
     <hr>
 
     {% for post in posts %}
-        <div>
+        <div class="container">
             <div>{{ post.date_published }} | Views {{ post.views }} | Category <a href="#">{{ post.category }}</a> </div>
             <h1><a href="">{{ post.title }}</a></h1>
             <p>{{ post.content|truncatewords:30 }}</p>

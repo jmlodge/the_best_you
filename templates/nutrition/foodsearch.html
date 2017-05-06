@@ -16,25 +16,85 @@
             <hr>
         </form>
     </div>
+    {% if data %}
+        <div class="container">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped table-sorter">
+                        <thead>
+                        <tr>
+                            <th class="header">Description</th>
+                            <th class="header">ID</th>
+                        </tr>
+                        </thead>
 
-    <div class="col-lg-12">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped table-sorter">
-                <thead>
-                <tr>
-                    <th class="header">Description</th>
-                    <th class="header">ID</th>
-                </tr>
-                </thead>
 
-                {% for item in data %}
-                    <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.ndbno }}</td>
-                    </tr>
-                {% endfor %}
+                            {% for item in data %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td><form method="post" action="{% url 'get_nutrients' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="food_id" value="{{ item.ndbno }}">
+                                        <input type="submit" value="{{ item.ndbno }}">
+                                    </form></td>
+                                </tr>
+                            {% endfor %}
 
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+    {% endif %}
+
+    {% if nutrient_data %}
+        <div class="container">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped table-sorter">
+                        <thead>
+                        <tr>
+                            {% for item in nutrient_data %}
+                                <th class="header">{{ item.name }}</th>
+                            {% endfor %}
+                            <th class="header">Nutrient / 100g</th>
+                        </tr>
+                        </thead>
+
+
+                            {% for item in nutrient_data %}
+                                <tr>
+                                    <td>Energy (kJ)</td>
+                                    <td>{{ item.Energy_kJ }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Energy (kcal)</td>
+                                    <td>{{ item.Energy_kcal }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Protein</td>
+                                    <td>{{ item.Protein }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Carbohydrates</td>
+                                    <td>{{ item.Carbohydrates }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fat</td>
+                                    <td>{{ item.Fat }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sugar</td>
+                                    <td>{{ item.Sugar }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fiber</td>
+                                    <td>{{ item.Fiber }}</td>
+                                </tr>
+                            {% endfor %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
