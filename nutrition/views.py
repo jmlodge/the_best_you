@@ -29,28 +29,30 @@ def search_name(request):
     return render(request, 'nutrition/foodsearch.html', {'data': parsed_data})
 
 
-def get_nutrients(request):
+def get_nutrients(request, food):
     parsed_data = []
     nutrients = ["204", "203", "205", "208", "268", "269", "291"]
-    if request.method == 'POST':
-        food_id = request.POST.get('food_id')
-        parameters = {"api_key": USDA_API_KEY, "nutrients": nutrients, "ndbno": food_id}
-        json_list = []
-        req = requests.get(' https://api.nal.usda.gov/ndb/nutrients/?format=json', params=parameters)
-        json_list.append(json.loads(req.content))
+    food_id = food
+    parameters = {"api_key": USDA_API_KEY, "nutrients": nutrients, "ndbno": food_id}
+    json_list = []
+    req = requests.get(' https://api.nal.usda.gov/ndb/nutrients/?format=json', params=parameters)
+    json_list.append(json.loads(req.content))
 
-        for data in json_list:
-            nutrient_data = {'name': data['report']['foods'][0]['name'],
-                             'Energy_kJ': data['report']['foods'][0]['nutrients'][0]['gm'],
-                             'Protein': data['report']['foods'][0]['nutrients'][1]['gm'],
-                             'Sugar': data['report']['foods'][0]['nutrients'][2]['gm'],
-                             'Fat': data['report']['foods'][0]['nutrients'][3]['gm'],
-                             'Carbohydrates': data['report']['foods'][0]['nutrients'][4]['gm'],
-                             'Energy_kcal': data['report']['foods'][0]['nutrients'][5]['gm'],
-                             'Fiber': data['report']['foods'][0]['nutrients'][6]['gm']}
-            parsed_data.append(nutrient_data)
+    for data in json_list:
+        nutrient_data = {'name': data['report']['foods'][0]['name'],
+                         'Energy_kJ': data['report']['foods'][0]['nutrients'][0]['gm'],
+                         'Protein': data['report']['foods'][0]['nutrients'][1]['gm'],
+                         'Sugar': data['report']['foods'][0]['nutrients'][2]['gm'],
+                         'Fat': data['report']['foods'][0]['nutrients'][3]['gm'],
+                         'Carbohydrates': data['report']['foods'][0]['nutrients'][4]['gm'],
+                         'Energy_kcal': data['report']['foods'][0]['nutrients'][5]['gm'],
+                         'Fiber': data['report']['foods'][0]['nutrients'][6]['gm']}
+        parsed_data.append(nutrient_data)
 
-    # return HttpResponse(req.content)
     return render(request, 'nutrition/foodsearch.html', {'nutrient_data': parsed_data})
-    # return HttpResponse(parsed_data)
 
+
+def post_nutrients(request):
+    if request.method == 'POST':
+
+        return None

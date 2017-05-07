@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^blog/(?P<id>\d+)/edit$', blog_views.edit_post, name='edit'),
     # nutrition
     url(r'^nutrition/$', nutrition_views.search_name, name='search_name'),
-    url(r'^nutrients/$', nutrition_views.get_nutrients, name='get_nutrients'),
+    url(r'^nutrients/(?P<food>\d+)$', nutrition_views.get_nutrients, name='get_nutrients'),
+    url(r'^nutrients/post$', nutrition_views.post_nutrients, name='post_nutrients')
 ]

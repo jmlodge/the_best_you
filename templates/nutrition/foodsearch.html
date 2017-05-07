@@ -32,11 +32,7 @@
                             {% for item in data %}
                                 <tr>
                                     <td>{{ item.name }}</td>
-                                    <td><form method="post" action="{% url 'get_nutrients' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="food_id" value="{{ item.ndbno }}">
-                                        <input type="submit" value="{{ item.ndbno }}">
-                                    </form></td>
+                                    <td><a href="{% url 'get_nutrients' item.ndbno %}">{{ item.ndbno }}</a></td>
                                 </tr>
                             {% endfor %}
 
@@ -91,8 +87,26 @@
                                     <td>{{ item.Fiber }}</td>
                                 </tr>
                             {% endfor %}
-
                     </table>
+
+                            <div>
+                                {% for item in nutrient_data %}
+                                <form method="post" action="{% url 'post_nutrients' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="name" value="{{ item.name }}">
+                                    <input type="hidden" name="energy_kJ" value="{{ item.Energy_kJ }}">
+                                    <input type="hidden" name="energy_kcal" value="{{ item.Energy_kcal }}">
+                                    <input type="hidden" name="protein" value="{{ item.Protein }}">
+                                    <input type="hidden" name="carbs" value="{{ item.Carbohydrates }}">
+                                    <input type="hidden" name="fat" value="{{ item.Fat }}">
+                                    <input type="hidden" name="sugar" value="{{ item.Sugar }}">
+                                    <input type="hidden" name="fiber" value="{{ item.Fiber }}">
+                                    <input type="submit" value="Add">
+                                </form>
+                                {% endfor %}
+                            </div>
+
+
                 </div>
             </div>
         </div>
