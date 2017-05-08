@@ -27,3 +27,4 @@ urlpatterns = [
     url(r'^nutrients/(?P<food>\d+)$', nutrition_views.get_nutrients, name='get_nutrients'),
     url(r'^nutrients/post$', nutrition_views.post_nutrients, name='post_nutrients')
 ]
+

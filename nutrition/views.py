@@ -2,8 +2,10 @@
 from __future__ import unicode_literals
 from the_best_you.settings import USDA_API_KEY
 from django.shortcuts import render, HttpResponse
+from nutrition.forms import NutrientsForm
 import requests
 import json
+import math
 
 
 def search_name(request):
@@ -49,10 +51,23 @@ def get_nutrients(request, food):
                          'Fiber': data['report']['foods'][0]['nutrients'][6]['gm']}
         parsed_data.append(nutrient_data)
 
+    for item in parsed_data:
+        for key in item:
+            if item[key] == "--":
+                item[key] = 0.0
+
     return render(request, 'nutrition/foodsearch.html', {'nutrient_data': parsed_data})
 
 
 def post_nutrients(request):
     if request.method == 'POST':
+        form = NutrientsForm(data=request.POST)
 
-        return None
+        if form.is_valid():
+            nutrients = form.save(commit=False)
+            nutrients.user = request.user
+            nutrients.save()
+        else:
+            print(form.errors)
+
+    return render(request, 'nutrition/foodsearch.html', {'form': form})
