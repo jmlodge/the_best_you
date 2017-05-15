@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
+{% load bootstrap_tags %}
 
 {% block content %}
-    {% if not registered %}
-        <h1>Please Register</h1>
-    {% endif %}
+    <div class="container">
+        {% if not registered %}
+            <h1>Please Register</h1>
+        {% endif %}
 
-    {% if registered %}
-        <h2>Thank You For Signing Up!</h2>
-    {% else %}
-        <h2>Register Here!</h2>
-        <hr>
-        <form id="user_form" method="post" action="{% url 'register' %}"
-                    enctype="multipart/form-data">
+        {% if registered %}
+            <h2>Thank You For Signing Up!</h2>
+        {% else %}
+            <h2>Register Here!</h2>
+            <hr>
+            <form id="user_form" method="post" action="{% url 'register' %}"
+                        enctype="multipart/form-data">
 
-                {% csrf_token %}
+                    {% csrf_token %}
 
 
-                {{ user_form.as_p }}
-                {{ user_profile_form.as_p }}
+                    {{ user_form | as_bootstrap }}
+                    {{ user_profile_form | as_bootstrap }}
 
-                <input type="submit" name="submit" value="Register" />
-            </form>
-    {% endif %}
+                    <input type="submit" name="submit" value="Register" />
+                </form>
+            <hr>
+        {% endif %}
+    </div>
 {% endblock %}
 </html>

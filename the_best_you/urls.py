@@ -6,6 +6,7 @@ from accounts import views as account_views
 from home import views as home_views
 from blog import views as blog_views
 from nutrition import views as nutrition_views
+from charts.views import ChartData
 
 
 urlpatterns = [
@@ -25,6 +26,8 @@ urlpatterns = [
     # nutrition
     url(r'^nutrition/$', nutrition_views.search_name, name='search_name'),
     url(r'^nutrients/(?P<food>\d+)$', nutrition_views.get_nutrients, name='get_nutrients'),
-    url(r'^nutrients/post$', nutrition_views.post_nutrients, name='post_nutrients')
+    url(r'^nutrients/post$', nutrition_views.post_nutrients, name='post_nutrients'),
+    # chart
+    url(r'^api/chart/data/$', ChartData.as_view()),
 ]
 

@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 from the_best_you.settings import USDA_API_KEY
 from django.shortcuts import render, HttpResponse
+from django.http import JsonResponse
 from nutrition.forms import NutrientsForm
 import requests
 import json
-import math
 
 
 def search_name(request):
@@ -71,3 +71,5 @@ def post_nutrients(request):
             print(form.errors)
 
     return render(request, 'nutrition/foodsearch.html', {'form': form})
+
+
