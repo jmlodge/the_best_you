@@ -17,9 +17,24 @@
                 <canvas id="myChart2" width="400" height="400"></canvas>
             </div>
         </div>
+        <div class='row'>
+            <div class="col-sm-6">
+                <h3>Previous</h3>
+                <canvas id="myChart3" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div>
+            <form action="{% url 'get_chart_data' %}" method="post">
+                {% csrf_token %}
+                <input type="date" name="date">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+        <hr>
     </div>
+
 <script>
-    var endpoint = '/api/chart/data/';
+    var endpoint = '/chart/data/';
     var todayData = [];
     var labels = [];
     var yesterdaysData = [];
@@ -124,8 +139,6 @@
     });
 }
 </script>
-
-
 
 {% endblock content %}
 
