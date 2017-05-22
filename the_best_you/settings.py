@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'blog',
     'nutrition',
     'charts',
+    'contact',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,13 @@ AUTHENTICATION_BACKENDS = (
 )
 
 USDA_API_KEY = 'xeGDdTmJJTiMlEPCkSmE6sqExbBCGNALiPzLTYsP'
+
+# Email Backends
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'testing@test.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+EMAIL_PORT = 1025
+

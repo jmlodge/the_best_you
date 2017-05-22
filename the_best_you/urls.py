@@ -7,6 +7,7 @@ from home import views as home_views
 from blog import views as blog_views
 from nutrition import views as nutrition_views
 from charts import views as chart_views
+from contact import views as contact_views
 
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     url(r'^nutrients/post$', nutrition_views.post_nutrients, name='post_nutrients'),
     # chart
     url(r'^chart/data/$', chart_views.get_chart_data, name='get_chart_data'),
+    # contact
+    url(r'^contact/$', contact_views.contact, name='contact'),
 ]
-
