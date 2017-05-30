@@ -1,0 +1,9 @@
+Contact Name:
+{{ name }}
+
+Contact Email:
+{{ email }}
+
+Content:
+
+{{ content | safe | striptags }}
