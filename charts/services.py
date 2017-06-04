@@ -54,13 +54,17 @@ def energy_service(user):
         day_list = []
         date = timezone.now() - timedelta(days=days)
         energy = Nutrients.objects.filter(date=date, user_id=user).values('energy_kcal')
-        p = len(energy) - 1
-        while p >= 0:
-            t = energy[p]['energy_kcal']
-            day_list.append(t)
-            p -= 1
-            if p == -1:
-                energy_week_list.append(sum(day_list))
+        if not energy:
+            n = 0.0
+            energy_week_list.append(n)
+        else:
+            p = len(energy) - 1
+            while p >= 0:
+                t = energy[p]['energy_kcal']
+                day_list.append(t)
+                p -= 1
+                if p == -1:
+                    energy_week_list.append(sum(day_list))
         days -= 1
 
     return energy_week_list
