@@ -22,6 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '$=y$wktj5unb*^ccu4d6zp8ym6onsko1uc60v#mtrz0+m0)qbk'
 
+STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE', 'pk_test_uHGQMPaUi3i5X9yMp0TJ06v4')
+STRIPE_SECRET = os.getenv('STRIPE_SECRET', 'sk_test_EKWM3MGmhiO1AFIN7njfsLs3')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -46,6 +48,10 @@ INSTALLED_APPS = [
     'charts',
     'contact',
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_URL = '/login/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

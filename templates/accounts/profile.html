@@ -8,21 +8,28 @@
         {{ bio }}
         <hr>
         <div class='row'>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h3>Today</h3>
                 <canvas id="myChart" width="400" height="400"></canvas>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h3>Yesterday</h3>
                 <canvas id="myChart2" width="400" height="400"></canvas>
             </div>
-        </div>
-        <div class='row'>
-            <div class="col-sm-6">
-                <h3>Previous</h3>
+            <div class="col-sm-4">
+                <h3>Energy (kcal)</h3>
                 <canvas id="myChart3" width="400" height="400"></canvas>
             </div>
         </div>
+        <hr>
+        {% if previous_data %}
+            <div class='row'>
+                <div class="col-sm-6">
+                    <h3>Previous</h3>
+                    <canvas id="myChart4" width="400" height="400"></canvas>
+                </div>
+            </div>
+        {% endif %}
         <div>
             <form action="{% url 'get_chart_data' %}" method="post">
                 {% csrf_token %}
@@ -35,8 +42,10 @@
 
 <script>
     var endpoint = '/chart/data/';
-    var todayData = [];
     var labels = [];
+    var energyLabels = [];
+    var energyData = [];
+    var todayData = [];
     var yesterdaysData = [];
 
     $.ajax({
@@ -44,6 +53,8 @@
         url: endpoint,
         success: function(data){
             labels = data.labels;
+            energyLabels = data.energy_labels;
+            energyData = data.energy_d;
             todayData = data.today_d;
             yesterdaysData = data.yesterday_d;
             setChart()
@@ -59,6 +70,36 @@
     function setChart() {
         var ctx = document.getElementById("myChart");
         var ctx2 = document.getElementById("myChart2");
+        var ctx3 = document.getElementById("myChart3");
+        var myChart3 = new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+            labels: energyLabels,
+            datasets: [{
+                label: 'Energy',
+                data: energyData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(75, 147, 59, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(75, 147, 59, 1)'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
         var myChart2 = new Chart(ctx2, {
         type: 'bar',
         data: {

@@ -32,4 +32,6 @@ urlpatterns = [
     url(r'^chart/data/$', chart_views.get_chart_data, name='get_chart_data'),
     # contact
     url(r'^contact/$', contact_views.contact, name='contact'),
+    # Stripe URLS
+    url(r'^cancel_subscription/$', account_views.cancel_subscription, name='cancel_subscription'),
 ]

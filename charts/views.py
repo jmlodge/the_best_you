@@ -19,31 +19,20 @@ def get_chart_data(request):
     yesterday = today - timedelta(days=1)
 
     labels = ["Protein", "Carbohydrates", "Fat", "Sugar", "Fiber"]
+    energy_labels = ["today - 6", "today - 5", "today - 4", "today - 3", "today - 2", "today - 1", "today"]
     todays_items = chart_service(today, user)
     yesterdays_items = chart_service(yesterday, user)
+    energy_items = energy_service(user)
     # previous_items = chart_service(date, user)
     data = {
         "labels": labels,
+        "energy_labels": energy_labels,
+        "energy_d": energy_items,
         "today_d": todays_items,
         "yesterday_d": yesterdays_items,
         # "previous_d": previous_items
     }
     return JsonResponse(data)
-
-
-def get_energy_data(request):
-
-    user = request.user.id
-
-    past_week_energy = energy_service(user)
-    labels = ["today - 6", "today - 5", "today - 4", "today - 3", "today - 2", "today - 1", "today"]
-
-    energy_data = {
-        "labels": labels,
-        "past_week_energy": past_week_energy
-    }
-
-    return JsonResponse(energy_data)
 
 
 def get_previous_data(request):
