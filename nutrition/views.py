@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from the_best_you.settings import USDA_API_KEY
-from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
+from django.shortcuts import render
 from nutrition.forms import NutrientsForm
 import requests
 import json

@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 categories = (
     ('Training', 'Training'),
@@ -13,7 +14,7 @@ categories = (
 
 
 class Post(models.Model):
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=250)
     content = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)

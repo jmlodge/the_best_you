@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from accounts.models import User
-from accounts.forms import UserCreationForm, UserLoginForm
+from accounts.forms import UserRegistrationForm, UserLoginForm
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -20,20 +20,19 @@ def register(request):
 
     if request.method == 'POST':
         # if 'post' attempt to get data from raw form input
-        user_form = UserForm(data=request.POST)
-        user_profile_form = UserProfileForm(data=request.POST)
+        form = UserRegistrationForm(data=request.POST)
 
-        if user_form.is_valid() and user_profile_form.is_valid():
+        if form.is_valid():
             try:
                 customer = stripe.Customer.create(
-                    email=user_form.cleaned_data['email'],
-                    card=user_form.cleaned_data['stripe_id'],
+                    email=form.cleaned_data['email'],
+                    card=form.cleaned_data['stripe_id'],
                     plan='TBY_MONTHLY',
                 )
 
                 if customer:
                     # save user data to DB
-                    user = user_form.save()
+                    user = form.save()
                     # hash password with set_password
                     password = request.POST.get('password1')
                     user.set_password(password)
@@ -41,15 +40,11 @@ def register(request):
                     user.subscription_end = arrow.now().replace(weeks=+4).datetime
                     user.save()
 
-                    profile = user_profile_form.save(commit=False)
-                    profile.user = user
+                    # if 'image' in request.FILES:
+                    #    profile.image = request.FILES['image']
 
-                    if 'image' in request.FILES:
-                        profile.image = request.FILES['image']
-
-                    profile.save()
-
-                    user = auth.authenticate(email=request.POST.get('email'), password=request.POST.get('password1'))
+                    user = auth.authenticate(username=request.POST.get('username'),
+                                             password=request.POST.get('password1'))
 
                     if user:
                         auth.login(request, user)
@@ -65,14 +60,13 @@ def register(request):
                 messages.error(request, "Sorry. Your card was declined")
 
         else:
-            print(user_form.errors, user_profile_form.errors)
+            print(form.errors)
 
     else:
         today = datetime.date.today()
-        user_form = UserForm(initial={'exp_month': today.month, 'exp_year': today.year})
-        user_profile_form = UserProfileForm
+        form = UserRegistrationForm(initial={'expiry_month': today.month, 'expiry_year': today.year})
 
-    args = {'user_form': user_form, 'user_profile_form': user_profile_form, 'publishable': settings.STRIPE_PUBLISHABLE}
+    args = {'form': form, 'publishable': settings.STRIPE_PUBLISHABLE}
     args.update(csrf(request))
     return render(request, 'accounts/register.html', args)
 
@@ -120,9 +114,9 @@ def logout(request):
 def profile(request):
     # this view needs extending (change bio to something better and access all UserProfile attributes from it)
     # will probably use this for dashboard fitness app. How can other users view???
-    profile_user = request.user.id
+    '''profile_user = request.user.id
     bio = UserProfile.objects.get(user_id=profile_user)
     bio = bio.bio
-    args = {'bio': bio}
-    return render(request, 'accounts/profile.html', args)
+    args = {'bio': bio}'''
+    return render(request, 'accounts/profile.html')
 

@@ -2,12 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+    {% block head_js %}{% endblock %}
+
 
     {% block title %}<title>The Best You</title>{% endblock title %}
 </head>
@@ -21,12 +24,15 @@
     <div class="container">
         <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
             <li><a href="{% url 'post_list' %}">Blog</a></li>
-            <li><a href="{% url 'profile' %}">Profile</a></li>
             <li><a href="{% url 'search_name' %}">Nutrition</a></li>
-            <li><a href="{% url 'login' %}">Log In</a></li>
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
+            {% else %}
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'login' %}">Log In</a></li>
+            {% endif %}
             <li><a href="{% url 'contact' %}">Contact</a></li>
         </ul>
     </div>
