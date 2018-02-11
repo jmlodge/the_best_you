@@ -31,12 +31,18 @@
             </div>
         {% endif %}
         <div>
+            <form action="{% url 'cancel_subscription' %}" method="post">
+                {% csrf_token %}
+                <input class="btn btn-danger" type="submit" value="Cancel">
+            </form>
+        </div>
+        <div>
             <form action="{% url 'get_chart_data' %}" method="post">
                 {% csrf_token %}
                 <input type="date" name="date">
                 <input type="submit" value="Search">
             </form>
-        </div>
+        </div>12
         <hr>
     </div>
 

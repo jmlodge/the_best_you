@@ -34,7 +34,7 @@ class User(AbstractUser):
     objects = AccountUserManager()
 
     def __unicode__(self):
-        return self.subscription_end
+        return self.username
 
 
 
