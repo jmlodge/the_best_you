@@ -12,6 +12,7 @@ def chart_service(date, user):
     carbs_list = []
     fat_list = []
     sugar_list = []
+
     fiber_list = []
 
     for item in nutrients:

@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^login/$', account_views.login, name='login'),
     url(r'^logout/$', account_views.logout, name='logout'),
     url(r'^profile/$', account_views.profile, name='profile'),
+    url(r'^search/$', account_views.get_old_menu, name='get_old_menu'),
     # blog
     url(r'^blog/$', blog_views.post_list, name='post_list'),
     url(r'^blog/(?P<id>\d+)/$', blog_views.post_detail),

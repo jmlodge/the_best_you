@@ -2,17 +2,18 @@
 
 {% block content %}
 
+    <div class="container">
+
     <hr>
     <button class="btn btn-default" onclick="location.href='{% url 'new_post' %}'">New Post</button>
     <hr>
 
     {% for post in posts %}
-        <div class="container">
-            <div>{{ post.date_published }} | Views {{ post.views }} | Category <a href="#">{{ post.category }}</a> </div>
-            <h1><a href="">{{ post.title }}</a></h1>
-            <p>{{ post.content|truncatewords:30 }}</p>
-            <p><button onclick="location.href={{ post.id }}">Read More</button></p>
-            <hr>
-        </div>
+        <div>{{ post.date_published }} | Views {{ post.views }} | Category <a href="#">{{ post.category }}</a> </div>
+        <h1><a href="">{{ post.title }}</a></h1>
+        <p>{{ post.content|truncatewords:30 }}</p>
+        <p><button onclick="location.href={{ post.id }}">Read More</button></p>
+        <hr>
+    </div>
     {% endfor %}
 {% endblock %}

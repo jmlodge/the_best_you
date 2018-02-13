@@ -37,12 +37,12 @@
             </form>
         </div>
         <div>
-            <form action="{% url 'get_chart_data' %}" method="post">
+            <form action="/search/" method="get">
                 {% csrf_token %}
                 <input type="date" name="date">
                 <input type="submit" value="Search">
             </form>
-        </div>12
+        </div>
         <hr>
     </div>
 

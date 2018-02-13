@@ -11,8 +11,6 @@ from services import chart_service, energy_service
 
 
 def get_chart_data(request):
-    # if request.method == 'POST':
-    #    date = request.POST['date']
 
     user = request.user.id
     today = timezone.now()
@@ -23,20 +21,18 @@ def get_chart_data(request):
     todays_items = chart_service(today, user)
     yesterdays_items = chart_service(yesterday, user)
     energy_items = energy_service(user)
-    # previous_items = chart_service(date, user)
     data = {
         "labels": labels,
         "energy_labels": energy_labels,
         "energy_d": energy_items,
         "today_d": todays_items,
         "yesterday_d": yesterdays_items,
-        # "previous_d": previous_items
     }
     return JsonResponse(data)
 
 
 def get_previous_data(request):
-    if request.method == 'POST':
+
         date = request.POST['date']
         user = request.user.id
         labels = ["Protein", "Carbohydrates", "Fat", "Sugar", "Fiber"]

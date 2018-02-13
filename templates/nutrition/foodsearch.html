@@ -16,6 +16,13 @@
             <hr>
         </form>
     </div>
+
+    <div class="container">
+        {% if no_results %}
+            {{ no_results }}
+        {% endif %}
+    </div>
+
     {% if data %}
         <div class="container">
             <div class="col-lg-12">

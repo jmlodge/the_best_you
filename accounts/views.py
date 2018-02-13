@@ -3,15 +3,18 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from accounts.models import User
+from nutrition.models import Nutrients
 from accounts.forms import UserRegistrationForm, UserLoginForm
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.template.context_processors import csrf
+from django.http import HttpResponse
 from django.conf import settings
 import stripe
 import arrow
 import datetime
+from django.utils import timezone
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -92,11 +95,21 @@ def login(request):
 
             user = auth.authenticate(username=username, password=password)
 
+            # check to see if stripe subscription is live
             if user is not None:
+                if user.subscription_end < timezone.now() and user.is_superuser is False:
+                    user.is_active = 0
+                    user.save()
+                    # re-authenticate user so they can not login as subscription has ended
+                    user = auth.authenticate(username=username, password=password)
+
+            if user is not None:
+                # log in user
                 auth.login(request, user)
                 return redirect(reverse('profile'))
             else:
-                form.add_error(None, "Your Username and, or Password was not recognised")
+                form.add_error(None, "Your Username and, or Password was not recognised/Your subscription "
+                                     "may have ended or been cancelled. Please re-register")
 
     else:
         form = UserLoginForm()
@@ -119,4 +132,23 @@ def profile(request):
     bio = bio.bio
     args = {'bio': bio}'''
     return render(request, 'accounts/profile.html')
+
+
+def get_old_menu(request):
+    q = request.GET['date']
+    user = request.user.id
+    breakfast = Nutrients.objects.filter(date=q, user_id=user, meal='breakfast').values(
+        'name', 'protein', 'carbs', 'fat', 'sugar', 'fiber', 'amount'
+    )
+    lunch = Nutrients.objects.filter(date=q, user_id=user, meal='lunch').values(
+        'name', 'protein', 'carbs', 'fat', 'sugar', 'fiber', 'amount'
+    )
+    dinner = Nutrients.objects.filter(date=q, user_id=user, meal='dinner').values(
+        'name', 'protein', 'carbs', 'fat', 'sugar', 'fiber', 'amount'
+    )
+    snack = Nutrients.objects.filter(date=q, user_id=user, meal='snack').values(
+        'name', 'protein', 'carbs', 'fat', 'sugar', 'fiber', 'amount'
+    )
+
+    return HttpResponse(dinner)
 
